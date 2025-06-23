@@ -13,7 +13,11 @@ impl Workflow {
     }
 
     /// Complete workflow: add files, generate commit message, commit, and push
-    pub async fn auto_commit_and_push(&self, files: Vec<String>) -> Result<()> {
+    pub async fn auto_commit_and_push(
+        &self,
+        files: Vec<String>,
+        branch: Option<String>,
+    ) -> Result<()> {
         println!("🔄 Starting automated commit workflow...");
 
         // Step 1: Add files to staging
@@ -66,10 +70,16 @@ impl Workflow {
 
         // Step 7: Push to remote
         println!("🚀 Pushing to remote...");
-        let current_branch =
-            Git::get_current_branch().unwrap_or_else(|_| self.config.default_branch.clone());
 
-        Git::push(Some(&current_branch)).context("Failed to push to remote")?;
+        // Use provided branch or get current branch
+        let target_branch = match branch {
+            Some(b) => b,
+            None => Git::get_current_branch()
+                .context("Failed to get current branch. Specify a branch with --branch")?,
+        };
+
+        println!("Pushing to branch: {}", target_branch);
+        Git::push(Some(&target_branch)).context("Failed to push to remote")?;
 
         println!("✅ Workflow completed successfully!");
         Ok(())

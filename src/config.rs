@@ -14,7 +14,6 @@ pub enum MessageLevel {
 pub struct Config {
     pub model: String,
     pub api_key: String,
-    pub default_branch: String,
     pub message_level: MessageLevel,
 }
 

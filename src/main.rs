@@ -15,6 +15,7 @@ struct Args {
     #[arg(short, long)]
     dry_run: bool,
 
+    /// Branch to push to (defaults to current branch)
     #[arg(short, long)]
     branch: Option<String>,
 
@@ -38,19 +39,23 @@ struct Args {
 async fn main() -> Result<()> {
     let args = Args::parse();
 
+    // Load configuration
     let config = Config::load().map_err(|e| {
         eprintln!("❌ Failed to load config: {}", e);
-        eprintln!("Please create a ghit.toml file with:");
-        eprintln!("model = \"gpt-3.5-turbo\"");
+        eprintln!("Please create a ghit.toml file in your home directory with:");
+        eprintln!("model = \"gpt-4.1\"");
         eprintln!("api_key = \"your-openai-api-key\"");
-        eprintln!("default_branch = \"main\"");
         eprintln!("message_level = \"normal\"  # quiet, normal, or verbose");
         e
     })?;
 
     let workflow = Workflow::new(config);
+
+    // Execute based on arguments
     if args.auto {
-        workflow.auto_commit_and_push(args.files).await?;
+        workflow
+            .auto_commit_and_push(args.files, args.branch)
+            .await?;
     } else if args.generate {
         if !args.files.is_empty() {
             eprintln!("⚠️  Warning: Files specified with --generate will be ignored");
@@ -59,7 +64,10 @@ async fn main() -> Result<()> {
     } else if args.stage_and_generate {
         workflow.stage_and_generate(args.files).await?;
     } else {
-        workflow.auto_commit_and_push(args.files).await?;
+        // Default behavior: auto commit
+        workflow
+            .auto_commit_and_push(args.files, args.branch)
+            .await?;
     }
 
     Ok(())
