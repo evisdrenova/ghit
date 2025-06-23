@@ -8,7 +8,7 @@ license = "MIT"
 repository = "https://github.com/evisdrenova/ghit"
 homepage = "https://github.com/evisdrenova/ghit"
 readme = "README.md"
-keywords = ["git", "ai", "commit", "cli", "automation", "rust","llm","openai"]
+keywords = ["git", "ai", "cli","llm","openai"]
 categories = ["command-line-utilities", "development-tools"]
 
 [[bin]]
