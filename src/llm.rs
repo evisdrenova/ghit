@@ -26,7 +26,7 @@ struct ChatResponse {
     choices: Vec<ChatChoice>,
 }
 
-struct LLM {
+pub struct LLM {
     config: Config,
 }
 

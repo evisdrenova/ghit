@@ -2,7 +2,7 @@ use anyhow::{Context, Result};
 use serde::Deserialize;
 use std::{env, fs, path::PathBuf};
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, Clone)]
 #[serde(rename_all = "lowercase")]
 pub enum MessageLevel {
     Quiet,   // one-line subject only
@@ -10,7 +10,7 @@ pub enum MessageLevel {
     Verbose, // subject + detailed body
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, Clone)]
 pub struct Config {
     pub model: String,
     pub api_key: String,
