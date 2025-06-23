@@ -1,6 +1,6 @@
 use anyhow::{Context, Result};
 use serde::Deserialize;
-use std::{env, fs, path::PathBuf};
+use std::{fs, path::PathBuf};
 
 #[derive(Debug, Deserialize, Clone)]
 #[serde(rename_all = "lowercase")]

@@ -38,7 +38,6 @@ struct Args {
 async fn main() -> Result<()> {
     let args = Args::parse();
 
-    // Load configuration
     let config = Config::load().map_err(|e| {
         eprintln!("❌ Failed to load config: {}", e);
         eprintln!("Please create a ghit.toml file with:");
@@ -50,8 +49,6 @@ async fn main() -> Result<()> {
     })?;
 
     let workflow = Workflow::new(config);
-
-    // Execute based on arguments
     if args.auto {
         workflow.auto_commit_and_push(args.files).await?;
     } else if args.generate {
@@ -62,7 +59,6 @@ async fn main() -> Result<()> {
     } else if args.stage_and_generate {
         workflow.stage_and_generate(args.files).await?;
     } else {
-        // Default behavior: auto commit
         workflow.auto_commit_and_push(args.files).await?;
     }
 
