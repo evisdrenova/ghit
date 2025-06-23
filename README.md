@@ -1,5 +1,9 @@
 # ghit
 
+
+https://github.com/user-attachments/assets/6c9f3129-bcfa-4357-a3e7-14422dc163df
+
+
 **ghit** is a CLI that uses AI to automatically generate meaningful Git commit messages and streamline your dev workflow.
 
 ## Features
