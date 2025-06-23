@@ -18,14 +18,20 @@ impl Workflow {
 
         // Step 1: Add files to staging
         if !files.is_empty() {
-            println!("📁 Adding files to staging area...");
+            println!("📁 Adding specified files to staging area...");
             Git::add_files(&files).context("Failed to add files to staging area")?;
+        } else {
+            // Auto-stage all changes if no specific files provided
+            if Git::has_unstaged_changes()? {
+                println!("📁 Auto-staging all modified files...");
+                Git::add_all_changes().context("Failed to add all changes to staging area")?;
+            }
         }
 
         // Step 2: Check if there are staged changes
         if !Git::has_staged_changes()? {
             return Err(anyhow::anyhow!(
-                "No staged changes found. Please add files with 'git add' or specify files to add."
+                "No changes found to commit. Make sure you have modified files in your repository."
             ));
         }
 
@@ -45,7 +51,7 @@ impl Workflow {
         // Step 5: Show the generated message and confirm
         println!("\n📝 Generated commit message:");
         println!("Subject: {}", subject);
-        if let Some(body_text) = &body {
+        if let Some(ref body_text) = body {
             println!("Body:\n{}", body_text);
         }
 
@@ -71,10 +77,16 @@ impl Workflow {
 
     /// Just generate a commit message without committing
     pub async fn generate_message_only(&self) -> Result<()> {
+        // Auto-stage changes if nothing is staged
         if !Git::has_staged_changes()? {
-            return Err(anyhow::anyhow!(
-                "No staged changes found. Please add files with 'git add' first."
-            ));
+            if Git::has_unstaged_changes()? {
+                println!("📁 Auto-staging all modified files...");
+                Git::add_all_changes()?;
+            } else {
+                return Err(anyhow::anyhow!(
+                    "No changes found. Make sure you have modified files in your repository."
+                ));
+            }
         }
 
         println!("📊 Reading staged changes...");
@@ -86,19 +98,15 @@ impl Workflow {
         println!("\n📝 Generated commit message:");
         println!("Subject: {}", subject);
         if let Some(ref body_text) = body {
-            // Add 'ref' here
             println!("Body:\n{}", body_text);
         }
 
-        if !self.confirm_commit()? {
-            println!("❌ Commit cancelled by user");
-            return Ok(());
+        println!("\nTo use this message:");
+        if let Some(body_text) = &body {
+            println!("git commit -m \"{}\" -m \"{}\"", subject, body_text);
+        } else {
+            println!("git commit -m \"{}\"", subject);
         }
-
-        // Step 6: Create the commit
-        println!("💾 Creating commit...");
-        Git::commit(&subject, body.as_deref()) // Now this works
-            .context("Failed to create commit")?;
 
         Ok(())
     }
@@ -106,8 +114,13 @@ impl Workflow {
     /// Add files and generate message, but don't commit
     pub async fn stage_and_generate(&self, files: Vec<String>) -> Result<()> {
         if !files.is_empty() {
-            println!("📁 Adding files to staging area...");
+            println!("📁 Adding specified files to staging area...");
             Git::add_files(&files)?;
+        } else {
+            if Git::has_unstaged_changes()? {
+                println!("📁 Auto-staging all modified files...");
+                Git::add_all_changes()?;
+            }
         }
 
         self.generate_message_only().await
