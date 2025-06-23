@@ -20,8 +20,7 @@ pub struct Config {
 
 impl Config {
     pub fn load() -> Result<Self> {
-        // let mut path: PathBuf = dirs::home_dir().context("could not find home directory")?;
-        let mut path: PathBuf = env::current_dir().context("could not find current directory")?;
+        let mut path: PathBuf = dirs::home_dir().context("could not find home directory")?;
         path.push("ghit.toml");
 
         let s = fs::read_to_string(&path)
