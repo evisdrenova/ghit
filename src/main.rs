@@ -1,18 +1,20 @@
 use clap::Parser;
 
+mod config;
+
 #[derive(Parser, Debug)]
 #[command(version, about, long_about = None)]
 struct Args {
+    #[arg(short, long, default_value_t = true)]
+    dry_run: bool,
     #[arg(short, long)]
-    name: String,
-    #[arg(short, long, default_value_t = 1)]
-    count: u8,
+    branch: bool,
 }
 
 fn main() {
     let args = Args::parse();
 
-    for _ in 0..args.count {
-        println!("Hello {}!", args.name);
-    }
+    let cfg = config::Config::load();
+
+    println!("the config {:?}", cfg);
 }
