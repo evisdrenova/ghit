@@ -1,7 +1,19 @@
 [package]
 name = "ghit"
 version = "0.1.0"
-edition = "2024"
+edition = "2021"
+description = "AI-powered Git commit message generator and workflow automation"
+authors = ["Evis Drenova"]
+license = "MIT"
+repository = "https://github.com/evisdrenova/ghit"
+homepage = "https://github.com/evisdrenova/ghit"
+readme = "README.md"
+keywords = ["git", "ai", "commit", "cli", "automation", "rust","llm","openai"]
+categories = ["command-line-utilities", "development-tools"]
+
+[[bin]]
+name = "ghit"
+path = "src/main.rs"
 
 [dependencies]
 anyhow = "1.0.98"
