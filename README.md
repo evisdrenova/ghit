@@ -51,7 +51,6 @@ Create a `ghit.toml` file in your home directory (`~/.ghit.toml` or `C:\Users\Yo
 ```toml
 model = "gpt-4.1"  # any openai model
 api_key = "your-openai-api-key-here"
-default_branch = "main"
 message_level = "normal"  # quiet, normal, or verbose
 ```
 
