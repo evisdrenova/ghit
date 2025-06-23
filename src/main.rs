@@ -1,6 +1,8 @@
+use crate::llm;
 use clap::Parser;
 
 mod config;
+mod llm;
 
 #[derive(Parser, Debug)]
 #[command(version, about, long_about = None)]
@@ -15,6 +17,8 @@ fn main() {
     let args = Args::parse();
 
     let cfg = config::Config::load();
+
+    let llm = llm::new(cfg);
 
     println!("the config {:?}", cfg);
 }
