@@ -98,14 +98,6 @@ ghit --auto --branch feature-branch
 ghit --stage-and-generate src/components/ tests/
 ```
 
-### Message Verbosity Levels
-
-Configure in `~/.ghit.toml`:
-
-- **`quiet`**: One-line commit message only
-- **`normal`**: Subject line + short description (default)
-- **`verbose`**: Detailed subject + explanatory body
-
 ## Configuration Options
 
 | Option          | Description                                             | Default  |
@@ -113,6 +105,14 @@ Configure in `~/.ghit.toml`:
 | `model`         | OpenAI model to use (`gpt-3.5-turbo`, `gpt-4`, etc.)    | `none`   |
 | `api_key`       | Your OpenAI API key                                     | Required |
 | `message_level` | Commit message verbosity (`quiet`, `normal`, `verbose`) | `normal` |
+
+### Message Verbosity Levels
+
+Configure in `~/.ghit.toml`:
+
+- **`quiet`**: One-line commit message only
+- **`normal`**: Subject line + short description (default)
+- **`verbose`**: Detailed subject + explanatory body
 
 ## Example Workflow
 
