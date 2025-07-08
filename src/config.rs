@@ -25,7 +25,7 @@ impl Config {
         let s = fs::read_to_string(&path)
             .with_context(|| format!("failed to read {}", path.display()))?;
 
-        let cfg: Config = toml::from_str(&s).context("failed to parse ghit.toml")?;
+        let cfg: Config = toml::from_str(&s).context("failed to parse .ghit.toml")?;
 
         Ok(cfg)
     }

@@ -1,8 +1,6 @@
 # ghit
 
-
 https://github.com/user-attachments/assets/6c9f3129-bcfa-4357-a3e7-14422dc163df
-
 
 **ghit** is a CLI that uses AI to automatically generate meaningful Git commit messages and streamline your dev workflow.
 
@@ -50,7 +48,7 @@ cargo install ghit
 
 ### Configuration
 
-Create a `ghit.toml` file in your home directory (`~/.ghit.toml` or `C:\Users\YourName\ghit.toml`):
+Create a `.ghit.toml` file in your home directory (`~/.ghit.toml` or `C:\Users\YourName\.ghit.toml`):
 
 ```toml
 model = "gpt-4.1"  # any openai model
@@ -204,7 +202,7 @@ EXAMPLES:
 
 **"Failed to load config"**
 
-- Ensure `ghit.toml` exists in your home directory (`~/.ghit.toml`)
+- Ensure `.ghit.toml` exists in your home directory (`~/.ghit.toml`)
 - Verify your OpenAI API key is correct and has credits
 
 **"OpenAI API error"**
